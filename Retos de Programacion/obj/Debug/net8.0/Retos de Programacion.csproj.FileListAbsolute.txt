@@ -26,3 +26,4 @@ C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\obj\Debug\net
 C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\obj\Debug\net8.0\Retos de Programacion.pdb
 C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\obj\Debug\net8.0\Retos de Programacion.genruntimeconfig.cache
 C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\obj\Debug\net8.0\ref\Retos de Programacion.dll
+C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\obj\Debug\net8.0\Retos de Programacion.sourcelink.json
