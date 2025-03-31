@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador JJOO París 2024</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #003d82;
+        }
+        #output {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+        .medal {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulador JJOO París 2024</h1>
+        <div>
+            <button onclick="registrarEvento()">1. Registrar evento</button>
+            <button onclick="registrarParticipante()">2. Registrar participante</button>
+            <button onclick="simularEvento()">3. Simular evento</button>
+            <button onclick="generarInforme()">4. Generar informe</button>
+            <button onclick="salir()">5. Salir</button>
+        </div>
+        <div id="output">Bienvenido al Simulador de los Juegos Olímpicos de París 2024. Selecciona una opción del menú.</div>
+    </div>
+
+    <script>
+        const simulador = {
+            eventos: [],
+            participantes: [],
+            resultados: [],
+            medallasPaises: new Map(),
+
+            registrarEvento: function() {
+                const nombre = prompt("Ingrese el nombre del evento deportivo:");
+                if (nombre && nombre.trim() !== "") {
+                    this.eventos.push(nombre.trim());
+                    this.mostrarOutput(`Evento '${nombre.trim()}' registrado con éxito!`);
+                } else {
+                    this.mostrarOutput("El nombre del evento no puede estar vacío.");
+                }
+            },
+
+            registrarParticipante: function() {
+                const nombre = prompt("Ingrese el nombre del participante:");
+                const pais = prompt("Ingrese el país del participante:");
+
+                if (nombre && nombre.trim() !== "" && pais && pais.trim() !== "") {
+                    const participante = {
+                        nombre: nombre.trim(),
+                        pais: pais.trim()
+                    };
+                    this.participantes.push(participante);
+                    this.mostrarOutput(`Participante ${nombre.trim()} de ${pais.trim()} registrado con éxito!`);
+                } else {
+                    this.mostrarOutput("Nombre y país son campos obligatorios.");
+                }
+            },
+
+            simularEvento: function() {
+                if (this.eventos.length === 0) {
+                    this.mostrarOutput("No hay eventos registrados.");
+                    return;
+                }
+
+                if (this.participantes.length < 3) {
+                    this.mostrarOutput("Se necesitan al menos 3 participantes para simular un evento.");
+                    return;
+                }
+
+                let eventosDisponibles = "Eventos disponibles:\n";
+                this.eventos.forEach((evento, index) => {
+                    eventosDisponibles += `${index + 1}. ${evento}\n`;
+                });
+
+                const seleccion = parseInt(prompt(eventosDisponibles + "\nSeleccione el número del evento a simular:")) - 1;
+                if (isNaN(seleccion) || seleccion < 0 || seleccion >= this.eventos.length) {
+                    this.mostrarOutput("Selección inválida.");
+                    return;
+                }
+
+                const evento = this.eventos[seleccion];
+                const participantesEvento = [...this.participantes]
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, Math.min(10, this.participantes.length));
+
+                if (participantesEvento.length < 3) {
+                    this.mostrarOutput("No hay suficientes participantes para este evento.");
+                    return;
+                }
+
+                const ganadores = participantesEvento.slice(0, 3);
+                const [oro, plata, bronce] = ganadores;
+
+                // Registrar resultados
+                this.resultados.push({
+                    evento: evento,
+                    oro: oro,
+                    plata: plata,
+                    bronce: bronce
+                });
+
+                // Actualizar conteo de medallas por país
+                this.actualizarMedallas(oro.pais, 'oro');
+                this.actualizarMedallas(plata.pais, 'plata');
+                this.actualizarMedallas(bronce.pais, 'bronce');
+
+                let output = "\nResultados del evento:\n";
+                output += `<span class="medal">🥇</span> Oro: ${oro.nombre} (${oro.pais})\n`;
+                output += `<span class="medal">🥈</span> Plata: ${plata.nombre} (${plata.pais})\n`;
+                output += `<span class="medal">🥉</span> Bronce: ${bronce.nombre} (${bronce.pais})`;
+
+                this.mostrarOutput(output);
+            },
+
+            actualizarMedallas: function(pais, tipoMedalla) {
+                if (!this.medallasPaises.has(pais)) {
+                    this.medallasPaises.set(pais, { oro: 0, plata: 0, bronce: 0 });
+                }
+                const medallas = this.medallasPaises.get(pais);
+                medallas[tipoMedalla]++;
+                this.medallasPaises.set(pais, medallas);
+            },
+
+            generarInforme: function() {
+                if (this.resultados.length === 0) {
+                    this.mostrarOutput("No hay resultados para generar informe.");
+                    return;
+                }
+
+                let output = "\n=== INFORME FINAL ===\n";
+
+                // Mostrar ganadores por evento
+                output += "\n🏆 Ganadores por evento:\n";
+                this.resultados.forEach(resultado => {
+                    output += `\nEvento: ${resultado.evento}\n`;
+                    output += `  <span class="medal">🥇</span> Oro: ${resultado.oro.nombre} (${resultado.oro.pais})\n`;
+                    output += `  <span class="medal">🥈</span> Plata: ${resultado.plata.nombre} (${resultado.plata.pais})\n`;
+                    output += `  <span class="medal">🥉</span> Bronce: ${resultado.bronce.nombre} (${resultado.bronce.pais})\n`;
+                });
+
+                // Mostrar ranking de países
+                output += "\n🏅 Ranking de países por medallas:\n";
+
+                // Convertir el Map a array y ordenar
+                const ranking = Array.from(this.medallasPaises.entries()).map(([pais, medallas]) => ({
+                    pais: pais,
+                    oro: medallas.oro,
+                    plata: medallas.plata,
+                    bronce: medallas.bronce,
+                    total: medallas.oro + medallas.plata + medallas.bronce
+                }));
+
+                // Ordenar por oro, luego plata, luego bronce
+                ranking.sort((a, b) => {
+                    if (b.oro !== a.oro) return b.oro - a.oro;
+                    if (b.plata !== a.plata) return b.plata - a.plata;
+                    return b.bronce - a.bronce;
+                });
+
+                output += "\nPos | País      | Oro | Plata | Bronce | Total\n";
+                output += "-".repeat(45) + "\n";
+                ranking.forEach((paisInfo, index) => {
+                    const pos = (index + 1).toString().padStart(3);
+                    const pais = paisInfo.pais.padEnd(10);
+                    const oro = paisInfo.oro.toString().padStart(3);
+                    const plata = paisInfo.plata.toString().padStart(5);
+                    const bronce = paisInfo.bronce.toString().padStart(6);
+                    const total = paisInfo.total.toString().padStart(5);
+                    output += `${pos} | ${pais} | ${oro} | ${plata} | ${bronce} | ${total}\n`;
+                });
+
+                this.mostrarOutput(output);
+            },
+
+            mostrarOutput: function(texto) {
+                document.getElementById('output').innerHTML = texto;
+            }
+        };
+
+        function registrarEvento() {
+            simulador.registrarEvento();
+        }
+
+        function registrarParticipante() {
+            simulador.registrarParticipante();
+        }
+
+        function simularEvento() {
+            simulador.simularEvento();
+        }
+
+        function generarInforme() {
+            simulador.generarInforme();
+        }
+
+        function salir() {
+            simulador.mostrarOutput("¡Hasta luego! Que disfrutes de los Juegos Olímpicos de París 2024!");
+        }
+    </script>
+</body>
+</html>
