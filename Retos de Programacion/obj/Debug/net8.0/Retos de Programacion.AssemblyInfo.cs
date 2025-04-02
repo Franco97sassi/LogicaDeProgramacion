@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Retos de Programacion")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef2ecd8588736c53f22d2a405cb19be0c299c21f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da77d548b4f7d5c8ed8cec4b4b95070e1f0b7bba")]
 [assembly: System.Reflection.AssemblyProductAttribute("Retos de Programacion")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Retos de Programacion")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
