@@ -46,3 +46,4 @@ C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\bin\Debug\net
 C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\bin\Debug\net8.0\System.Text.Json.dll
 C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\obj\Debug\net8.0\Retos de.89FB7764.Up2Date
+C:\Users\Franc\Desktop\Retos de Programacion\Retos de Programacion\bin\Debug\net8.0\suscriptores.csv

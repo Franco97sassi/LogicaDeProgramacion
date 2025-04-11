@@ -17,4 +17,10 @@
     <Folder Include="NewFolder\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="suscriptores.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
